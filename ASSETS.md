@@ -1,6 +1,6 @@
 # Proton Patrol: art
 
-**Status:** none yet. Stand-ins (a drawn Pip, brand-kit badges) show until each file exists. Drop a file in with the exact name and the game uses it automatically.
+**Status:** done (Nov 2026). All 25 images are in `assets/` (mascot 320 × 320, badges and logo 256 × 256, transparent WebP), cut from the ChatGPT art package. To replace one, drop in a file with the same name.
 
 Structures and charges inside questions are drawn by code on purpose. Don't make those.
 
