@@ -8,4 +8,4 @@ Study game for CHEM 3B acid–base chemistry: textbook Sections 4.10 (acidity of
 - `ASSETS.md`: the art list (mascot Pip, logo, badges). Stand-ins show until the files exist.
 - Links: `?topic=aa74,pi` opens topics directly; `?mode=exam` opens Exam Practice.
 
-Game design and chemistry by ItsDrDan. Code written with AI assistance (Claude) and checked by the author. CC BY-NC-SA 4.0.
+Game design and chemistry by ItsDrDan. Code written with AI assistance (Claude) and checked by the author. © ItsDrDan, all rights reserved; free to play, reuse by permission only (see LICENSE).
