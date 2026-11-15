@@ -1332,6 +1332,11 @@ function bind() {
   const rb = $('resetBtn'); let armed = 0;
   rb.onclick = () => { if (!armed) { armed = 1; rb.classList.add('armed'); rb.textContent = 'Tap again to reset'; setTimeout(() => { armed = 0; rb.classList.remove('armed'); rb.textContent = 'Reset my progress'; }, 3500); return; } P = fresh(); P.migrated = 1; save(); renderStats(); renderChooser(); armed = 0; rb.classList.remove('armed'); rb.textContent = 'Reset my progress'; };
 }
+/* Inside a textbook box (iframe), a ?topic= link opens at the question, not the title banner (2026-11-14) */
+/* ?view=lab: compact view for a textbook box. Shows only the demo (and whatever it needs) plus a link to the full game,
+   so the box can stay short on a phone and the student can still scroll the textbook page around it (2026-11-14). */
+function ddLabView(keep){try{if(new URLSearchParams(location.search).get('view')!=='lab')return false;const ks=keep.map(k=>typeof k==='string'?document.getElementById(k):k).filter(Boolean);if(!ks.length)return false;const need=new Set();ks.forEach(k=>{for(let e=k;e&&e!==document.body;e=e.parentElement)need.add(e)});need.forEach(e=>{const p=e.parentElement;if(!p)return;[...p.children].forEach(c=>{if(need.has(c)||/^(SCRIPT|STYLE|DIALOG|CANVAS|TEMPLATE|LINK|NOSCRIPT)$/.test(c.tagName)||getComputedStyle(c).position==='fixed')return;c.setAttribute('data-dd-labhide','')})});const st=document.createElement('style');st.textContent='[data-dd-labhide]{display:none!important}.dd-labbar{display:flex;justify-content:flex-end;padding:4px 10px 0;font:600 14px/1.4 system-ui,-apple-system,sans-serif}.dd-labbar a{color:inherit;text-decoration:underline}';document.head.appendChild(st);document.documentElement.classList.add('dd-labview');const u=new URL(location.href);u.searchParams.delete('view');const bar=document.createElement('div');bar.className='dd-labbar';const a=document.createElement('a');a.href=u.href;a.target='_blank';a.rel='noopener';a.textContent='Open the full game ↗';bar.appendChild(a);document.body.insertBefore(bar,document.body.firstChild);window.scrollTo(0,0);return true}catch(e){return false}}
+function ddJumpTo(get){let moved=false;const stop=()=>{moved=true};['wheel','touchstart','keydown','pointerdown'].forEach(t=>addEventListener(t,stop,{once:true,passive:true}));const go=()=>{if(moved||document.documentElement.classList.contains('dd-labview'))return;const el=get();if(el)window.scrollTo({top:Math.max(0,el.getBoundingClientRect().top+window.scrollY-8),behavior:'instant'})};requestAnimationFrame(()=>requestAnimationFrame(go));if(document.readyState!=='complete')addEventListener('load',()=>setTimeout(go,50),{once:true});setTimeout(go,700)}
 function init() {
   load(); bind(); wireArt(); paintIcons();
   // ?topic=find,relate opens topics directly; ?mode=exam opens Exam Practice
@@ -1342,6 +1347,8 @@ function init() {
   renderStats(); renderChooser(); P.rankSeen = P.rankSeen || rankOf(P.xp).name;
   setVideoFor('ph');
   if (mode === 'exam') enterExam(); else if (state.sel.size) newQuestion(); else showEmpty();
+  if (topics.length && window.parent !== window && sp.get('explore') !== '1') ddJumpTo(() => $('play'));
+  ddLabView(['play']);
   setTimeout(() => { paintIcons(); }, 400);
   window.addEventListener('load', () => paintIcons());
 }
