@@ -334,6 +334,7 @@ svg.fischer{width:200px;max-width:100%}svg.fischer .fl{font:800 17px Nunito,Inte
 .dial-obs{border:1px solid #dfe4f0;border-left:5px solid #7884ea;border-radius:12px;padding:10px 12px;background:#fbfbff;margin:8px 0;text-align:left;overflow-x:auto}.dial-obs table{border-collapse:collapse;width:100%;font-size:.9rem}.dial-obs th,.dial-obs td{padding:4px 6px;border-bottom:1px solid #e6e9f2;text-align:left}.dial-obs p{margin:6px 0 0}
 .dial-exfb:empty{display:none}
 @media(max-width:640px){.dial-view{grid-template-columns:1fr}}
+/* iOS: no double-tap zoom when buttons are tapped quickly; pinch zoom still works (2026-11-14) */ html{touch-action:manipulation}
 </style>
 <script src="https://itsdrdan.github.io/games/track.js" defer></script>
 <link rel="stylesheet" href="https://itsdrdan.github.io/games/brand/itsdrdan.css">
@@ -1305,4 +1306,5 @@ function init() {
 }
 if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init); else init();
 </script>
+<script>/* iOS: a quick second tap on a button that just turned disabled must not zoom the page (2026-11-14) */document.addEventListener("touchend",e=>{const b=e.target&&e.target.closest&&e.target.closest("button");if(b&&b.disabled&&e.cancelable)e.preventDefault()},{passive:false});</script>
 </body></html>
